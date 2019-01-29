@@ -1,0 +1,32 @@
+{
+	"name": "poll-skills",
+	"version": "1.0.0",
+	"main": "dist/backend/index.js",
+	"license": "MIT",
+	"botpress": {
+		"liteViews": {
+			"poll": "./src/views/poll.jsx"
+		}
+	},
+	"webpack": {
+		"externals": {
+			"react": "React",
+			"react-dom": "ReactDOM",
+			"react-bootstrap": "ReactBootstrap",
+			"botpress/content-picker": "BotpressContentPicker"
+		}
+	},
+	"scripts": {
+		"build": "./node_modules/.bin/module-builder build",
+		"watch": "./node_modules/.bin/module-builder watch",
+		"package": "./node_modules/.bin/module-builder package"
+	},
+	"devDependencies": {
+		"module-builder": "../../../botpress-source/build/module-builder"
+	},
+	"dependencies": {
+		"react-jsonschema-form": "^1.2.0",
+		"react-tag-input": "^6.1.0",
+		"typescript": "^3.2.2"
+	}
+}
