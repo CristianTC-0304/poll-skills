@@ -49,6 +49,7 @@ const generateFlow = (data): sdk.FlowGenerationResult => {
             ],
             next: [
                 { condition: `temp['validate'] === true`, node: 'message_question'},
+                { condition: `temp['finalizedQuestion'] === true`, node: 'END' },
                 { condition: 'true', node: 'message_question' }
             ]
         }

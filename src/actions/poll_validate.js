@@ -14,6 +14,7 @@ let nextFieldLength
 let typeOption
 let fieldsNames
 let countQuestion
+let message
 
 const validate = async (args) => {
     temp['validate'] = false
@@ -32,7 +33,6 @@ const validate = async (args) => {
 
 function validateOption(type) {
     console.log('type poll', type)
-    let message
     const userTex = temp['textUser']
     let option = {
         'abierta': function () {
@@ -67,40 +67,33 @@ function validateOption(type) {
                 temp['countQuestion'] = 0
                 temp['validate'] = true
             } else {
-                temp['countQuestion'] = countQuestion + 1
-                temp['nextFieldLength'] = nextFieldLength
-                console.log('ejemplo jajajajja',  temp['nextFieldLength'], temp['fieldsLength'])
-                message = 'Error en tu tipo de respuesta esperabamos de 0 a 10'
-                sendMessage(message)
-                if (temp['countQuestion'] === 4) {
-                    temp['nextFieldLength'] = temp['fieldsLength']
-                }
+                countInvalidQuestion()
             }
             return 'Multiple'
         }
-    }; 
+    };
     return (option[type] || option['default'])()
 }
 
 function optionCerrada(type) {
     console.log('optionCerrada', type)
-    let sendOption = {keywords: null,validate: false}
+    let sendOption = { keywords: null, validate: false }
     for (let inType of typeOption) {
+        console.log('inTtype cell', inType)
         if (type == inType) {
             sendOption = {
                 keywords: inType,
                 validate: true
             }
             return sendOption
-        } else {
-            return sendOption
         }
     }
+    return sendOption
 }
 
 function optionMultiple(type) {
     console.log('optionMultiple', type)
-    let sendOption = {keywords: null, validate: false}
+    let sendOption = { keywords: null, validate: false }
     for (let expresion of typeOption) {
         const regulate = new RegExp(expresion)
 
@@ -119,20 +112,23 @@ function optionMultiple(type) {
     }
 }
 
-function countInvalidQuestion(count) {
-    temp['countQuestion'] = count + 1
-    if (temp['countQuestion'] === 7) {
-        console.log('entro a las 7', temp['countQuestion'])
-        temp['nextFieldLength'] = fieldsNames.length
-        const message = 'Ya no tienes mas intentos de responder esta pregunta, la encuesta finalizara'
+function countInvalidQuestion() {
+    temp['countQuestion'] = countQuestion + 1
+    temp['nextFieldLength'] = nextFieldLength
+    console.log('ejemplo jajajajja', temp['nextFieldLength'], temp['fieldsLength'])
+    message = 'Error en tu tipo de respuesta esperabamos de 0 a 10'
+    sendMessage(message)
+    if (temp['countQuestion'] === 4) {
+        message = 'finalizar conversación'
         sendMessage(message)
+        temp['finalizedQuestion'] = true
     }
 }
 
 const sendMessage = async (message) => {
-    const eventDestination = {target:`${event.target}`, botId: `${event.botId}`, channel: `${event.channel}`, threadId: `${event.threadId}`}
-    const full_message = await bp.cms.renderElement('builtin_text', {type: 'text', text: message, typing: true}, eventDestination)
-    await bp.events.replyToEvent(eventDestination, full_message) 
+    const eventDestination = { target: `${event.target}`, botId: `${event.botId}`, channel: `${event.channel}`, threadId: `${event.threadId}` }
+    const full_message = await bp.cms.renderElement('builtin_text', { type: 'text', text: message, typing: true }, eventDestination)
+    await bp.events.replyToEvent(eventDestination, full_message)
 }
 
 return validate(args)

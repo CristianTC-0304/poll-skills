@@ -17,10 +17,11 @@ const questions = async (args) => {
     console.log('nextFieldLength', nextFieldLength)
     console.log('text payload', event.payload.text)
     console.log('fieldsNames', fieldsNames)
-    if (fieldsNames) {
+    if (nextFieldLength < fieldsNames.length) {
         //temp['nextFieldLength'] = nextFieldLength + 1
         temp['textUser'] = event.payload.text
         temp['countQuestion']
+        temp['finalizedQuestion'] = false
         /*const values = {
             //...temp['values'],
             fields: {

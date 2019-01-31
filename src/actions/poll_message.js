@@ -15,9 +15,9 @@ const message = async(args) => {
     const fieldsName = Object.keys(args.keywords)
     const nextFieldLength = temp['nextFieldLength'] || 0
     console.log('nextFieldLength poll message', nextFieldLength)
-    const questionMessage = args.keywords[fieldsName[nextFieldLength]].message[0]
     console.log('fieldsName example', fieldsName)
-    if (fieldsName) {
+    if (nextFieldLength < fieldsName.length) {
+        const questionMessage = args.keywords[fieldsName[nextFieldLength]].message[0]
         sendMessage(questionMessage)
         temp['nextFieldLength'] = nextFieldLength
         temp['fieldsLength'] = fieldsName.length
