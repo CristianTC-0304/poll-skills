@@ -52,31 +52,31 @@ module.exports = {
                     properties: {
                         question_type: {
                             title: 'Tipo de pregunta',
-                            description: 'Estos son los diferentes tipos de pregunta.', 
+                            description: 'Estos son los diferentes tipos de pregunta.',
                             type: 'string',
                             anyOf: [
                                 {
-                                  type: "string",
-                                  enum: [
-                                    "multiple"
-                                  ],
-                                  title: "Multiple"
+                                    type: "string",
+                                    enum: [
+                                        "abierta"
+                                    ],
+                                    title: "Abierta"
                                 },
                                 {
-                                  type: "string",
-                                  enum: [
-                                    "acotada"
-                                  ],
-                                  title: "Acotada"
+                                    type: 'string',
+                                    enum: [
+                                        "cerrada",
+                                    ],
+                                    title: "Cerrada"
                                 },
                                 {
-                                  type: "string",
-                                  enum: [
-                                    "abierta"
-                                  ],
-                                  title: "Abierta"
+                                    type: "string",
+                                    enum: [
+                                        "multiple"
+                                    ],
+                                    title: "Selección Multiple"
                                 }
-                            ]
+                            ],
                         },
                         question: {
                             description: 'Descripción de la pregunta a evaluar',
@@ -88,6 +88,14 @@ module.exports = {
                             type: 'string',
                             title: 'Nombre del campo'
                         },
+                        validate: {
+                            type: "array",
+                            title: "Validar Campo",
+                            description: 'En este apartado puedes validar que quieres recibir del usuario ejemplo: (SI o NO)',
+                            items: {
+                                type: "string",
+                            }
+                        },
                     }
                 }
             },
@@ -95,6 +103,11 @@ module.exports = {
         }
     },
     uiSchema: {
+        listOfStrings: {
+            items: {
+                "ui:emptyValue": ""
+            }
+        },
         variations: {
             'ui:options': {
                 orderable: false

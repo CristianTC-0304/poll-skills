@@ -14,11 +14,11 @@ const INTENT_PREFIX = 'intent:'
 const message = async(args) => { 
     const fieldsName = Object.keys(args.keywords)
     const nextFieldLength = temp['nextFieldLength'] || 0
+    console.log('nextFieldLength poll message', nextFieldLength)
     const questionMessage = args.keywords[fieldsName[nextFieldLength]].message[0]
     console.log('fieldsName example', fieldsName)
-    console.log('send message', nextFieldLength)
-    sendMessage(questionMessage)
     if (fieldsName) {
+        sendMessage(questionMessage)
         temp['nextFieldLength'] = nextFieldLength
         temp['fieldsLength'] = fieldsName.length
     } else {

@@ -63,7 +63,7 @@ export default class TemplateModule extends React.Component {
         console.log('acc initial', acc)
         console.log('data onContentChanged', v)
         if (!acc[v.name_file]) {
-          acc[v.name_file] = { message: _.uniq([v.question]), question_type: _.uniq([v.question_type])} 
+          acc[v.name_file] = { message: _.uniq([v.question]), question_type: _.uniq([v.question_type]), validate: _.uniq([v.validate])} 
         }
         console.log('acc return', acc)
         return acc

@@ -20,8 +20,8 @@ const generateFlow = (data): sdk.FlowGenerationResult => {
                 }
             ],
             next: [
-                {condition: `temp['nextFieldLength'] >= temp['fieldsLength']`, node: '#'},
-                {condition: 'true', node: 'question_show'}
+                { condition: `temp['nextFieldLength'] >= temp['fieldsLength']`, node: '#' },
+                { condition: 'true', node: 'question_show' }
             ]
         },
         {
@@ -34,9 +34,23 @@ const generateFlow = (data): sdk.FlowGenerationResult => {
                 }
             ],
             next: [
-                { condition: `temp['nextFieldLength'] >= temp['fieldsLength']`, node: '#'},
-                 {condition: 'true', node: 'message_question'}
-                ]
+                { condition: `temp['nextFieldLength'] >= temp['fieldsLength']`, node: '#' },
+                { condition: 'true', node: 'validate_question' }
+            ]
+        },
+        {
+            name: 'validate_question',
+            onEnter: [
+                {
+                    type: sdk.NodeActionType.RunAction,
+                    name: 'poll-skills/poll_validate',
+                    args: data
+                }
+            ],
+            next: [
+                { condition: `temp['validate'] === true`, node: 'message_question'},
+                { condition: 'true', node: 'message_question' }
+            ]
         }
     ]
     return {
@@ -56,9 +70,9 @@ const createTransitions = data => {
         const pollShort = poll.length > 8 ? poll.substr(0, 7) + '...' : poll
 
         return {
-          caption: `[${pollShort}]`,
-          condition: `temp['nextFieldLength'] >= temp['fieldsLength']`,
-          node: ''
+            caption: `[${pollShort}]`,
+            condition: `temp['nextFieldLength'] >= temp['fieldsLength']`,
+            node: ''
         }
     })
 
